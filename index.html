@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gas Station Network</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body onload="openTab(event, 'tab1')" class="container">
+
+<div class="container text-center m-3">
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="tablinks btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked onclick="openTab(event, 'tab1')">
+        <label class="btn btn-outline-primary" for="btnradio1">Local Employees List</label>
+
+        <input type="radio" class="tablinks btn-check" name="btnradio" id="btnradio2" autocomplete="off" onclick="openTab(event, 'tab2')">
+        <label class="btn btn-outline-primary" for="btnradio2">Global Employees List</label>
+    </div>
+</div>
+
+<div id="tab1" class="tabcontent " style="display: block;">
+    <div style="display: flex; justify-content: flex-end;">
+        <button id="refresh-local-employees-list-btn" type="button" class="btn btn-success" style="margin-right: 10px;">
+            Refresh
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+            </svg>
+        </button>
+
+
+        <button id="create-new-employee-btn" type="button" class="btn btn-success">
+            Create new employee
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+        </button>
+    </div>
+
+    <div>
+        <div class="form-group">
+            <label for="sort-local-employees-dropdown">Sort by:</label>
+            <select id="sort-local-employees-dropdown" class="form-control">
+                <option value="first_name">First Name</option>
+                <option value="last_name">Last Name</option>
+                <option value="job_title">Job Title</option>
+                <option value="filial">Filial</option>
+                <option value="sick_leave_days_available">Sick Leave Days Available</option>
+                <option value="sick_leave_days_used">Sick Leave Days Used</option>
+                <option value="vacation_days_available">Vacation Days Available</option>
+                <option value="vacation_days_used">Vacation Days Used</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="order-local-employees-dropdown">Order by:</label>
+            <select id="order-local-employees-dropdown" class="form-control">
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div id="local-employees-error-section" class="mt-1">
+
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Job Title</th>
+            <th scope="col">Filial</th>
+            <th scope="col">Sick leave_days available</th>
+            <th scope="col">Sick leave days used</th>
+            <th scope="col">Vacation days available</th>
+            <th scope="col">Vacation days used</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody id="local-employees-list">
+        </tbody>
+    </table>
+</div>
+
+
+<div id="tab2" class="tabcontent" style="display: none;">
+    <button id="refresh-global-employees-list-btn" type="button" class="btn btn-success position-sticky top-0 start-100">
+        Refresh
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+    </button>
+
+    <div>
+        <div class="form-group">
+            <label for="sort-global-employees-dropdown">Sort by:</label>
+            <select id="sort-global-employees-dropdown" class="form-control">
+                <option value="first_name">First Name</option>
+                <option value="last_name">Last Name</option>
+                <option value="job_title">Job Title</option>
+                <option value="filial">Filial</option>
+                <option value="sick_leave_days_available">Sick Leave Days Available</option>
+                <option value="sick_leave_days_used">Sick Leave Days Used</option>
+                <option value="vacation_days_available">Vacation Days Available</option>
+                <option value="vacation_days_used">Vacation Days Used</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="order-global-employees-dropdown">Order by:</label>
+            <select id="order-global-employees-dropdown" class="form-control">
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="global-employees-error-section" class="mt-1">
+
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Job Title</th>
+            <th scope="col">Filial</th>
+            <th scope="col">Sick leave_days available</th>
+            <th scope="col">Sick leave days used</th>
+            <th scope="col">Vacation days available</th>
+            <th scope="col">Vacation days used</th>
+        </tr>
+        </thead>
+        <tbody id="global-employees-list">
+        </tbody>
+    </table>
+</div>
+
+<div id="createEmployeeModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create new employee</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="createEmployeeForm" class="modal-body">
+                <div class="mb-3">
+                    <label for="firstNameInput" class="form-label">First Name:</label>
+                    <input type="text" class="form-control" id="firstNameInput" name="first_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastNameInput" class="form-label">Last Name:</label>
+                    <input type="text" class="form-control" id="lastNameInput" name="last_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastNameInput" class="form-label">Email:</label>
+                    <input type="text" class="form-control" id="emailInput" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="jobTitleInput" class="form-label">Job Title:</label>
+                    <input type="text" class="form-control" id="jobTitleInput" name="job_title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="jobTitleInput" class="form-label">Salary:</label>
+                    <input type="number" class="form-control" id="salaryInput" name="salary" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sickLeaveDaysInput" class="form-label">Sick Leave Days:</label>
+                    <input type="number" class="form-control" id="sickLeaveDaysInput" name="sick_leave_days" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="vacationDaysInput" class="form-label">Vacation Days:</label>
+                    <input type="number" class="form-control" id="vacationDaysInput" name="vacation_days" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Create</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="updateEmployeeModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Update employee</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="updateEmployeeForm" class="modal-body">
+                <div class="mb-3">
+                    <label for="firstNameUpdateInput" class="form-label">First Name:</label>
+                    <input type="text" class="form-control" id="firstNameUpdateInput" name="first_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastNameUpdateInput" class="form-label">Last Name:</label>
+                    <input type="text" class="form-control" id="lastNameUpdateInput" name="last_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="jobTitleUpdateInput" class="form-label">Job Title:</label>
+                    <input type="text" class="form-control" id="jobTitleUpdateInput" name="job_title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sickLeaveDaysUpdateInput" class="form-label">Sick Leave Days Available:</label>
+                    <input type="number" class="form-control" id="sickLeaveDaysUpdateInput" name="sick_leave_days" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="vacationDaysUpdateInput" class="form-label">Vacation Days Available:</label>
+                    <input type="number" class="form-control" id="vacationDaysUpdateInput" name="vacation_days" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="salaryUpdateInput" class="form-label">Salary:</label>
+                    <input type="number" class="form-control" id="salaryUpdateInput" name="salary" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="emailUpdateInput" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="emailUpdateInput" name="email" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+                integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+                integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+        <script src="./renderer.js"></script>
+        <script>
+            function openTab(evt, tabName) {
+                // get all elements with class "tabcontent" and hide them
+                var tabcontent = document.getElementsByClassName('tabcontent');
+                for (var i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = 'none';
+                }
+
+                // get all elements with class "tablinks" and remove the "active" class
+                var tablinks = document.getElementsByClassName('tablinks');
+                for (var i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(' active', '');
+                }
+
+                // show the current tab and add an "active" class to the button that opened it
+                document.getElementById(tabName).style.display = 'block';
+                evt.currentTarget.className += ' active';
+            }
+        </script>
+</body>
+</html>

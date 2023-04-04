@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+message Empty {}
+
+message EmployeeDto {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string job_title = 4;
+  string filial = 5;
+  int32 sick_leave_days_available = 6;
+  int32 sick_leave_days_used = 7;
+  int32 vacation_days_available = 8;
+  int32 vacation_days_used = 9;
+}
+
+message GetEmployeeByIdRequest {
+  int32 employee_id = 1;
+}
+
+message GetEmployeeByIdResponse {
+  EmployeeDto employee = 1;
+}
+
+message GetAllEmployeesRequest {
+  string sort = 1;
+  string order = 2;
+}
+
+message GetAllEmployeesResponse {
+  repeated EmployeeDto employees = 1;
+}
+
+service UserService {
+  rpc GetAllEmployees (GetAllEmployeesRequest) returns (GetAllEmployeesResponse) {}
+}
